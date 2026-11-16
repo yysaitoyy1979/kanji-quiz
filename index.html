@@ -45,10 +45,6 @@ button{
     font-size:16px;
 }
 
-button:hover{
-    background:#0055aa;
-}
-
 .section-title{
     margin-top:40px;
     color:#6b4b32;
@@ -65,12 +61,12 @@ button:hover{
 }
 
 .category{
-    color:#777;
     font-size:0.9rem;
+    color:#777;
 }
 
 .question{
-    font-size:1.6rem;
+    font-size:1.5rem;
     font-weight:bold;
     margin-top:10px;
 }
@@ -90,26 +86,18 @@ button:hover{
     margin-right:15px;
 }
 
-details summary{
-    cursor:pointer;
-    font-weight:bold;
-}
-
 footer{
     text-align:center;
     padding:30px;
     color:#666;
 }
 
+details summary{
+    cursor:pointer;
+    font-weight:bold;
+}
+
 @media (max-width:768px){
-
-    header{
-        padding:20px 10px;
-    }
-
-    header h1{
-        font-size:1.8rem;
-    }
 
     .container{
         padding:10px;
@@ -152,7 +140,7 @@ footer{
 </button>
 </div>
 
-<div id="quizArea" class="container">
+<div class="container" id="quizArea">
 読込中...
 </div>
 
@@ -190,96 +178,71 @@ fetch("questions.json")
 
     const rnd = seededRandom(seed);
 
-    const readQuestions =
-        data
-        .filter(q => q.type === "read")
-        .sort(() => rnd()-0.5)
-        .slice(0,10);
+    const shuffled =
+        [...data]
+        .sort(() => rnd() - 0.5);
 
-    const usedIds =
-        new Set(
-            readQuestions.map(q => q.id)
-        );
+    const readQuestions =
+        shuffled.slice(0,10);
 
     const writeQuestions =
-        data
-        .filter(q =>
-            q.type === "write" &&
-            !usedIds.has(q.id)
-        )
-        .sort(() => rnd()-0.5)
-        .slice(0,10);
+        shuffled.slice(10,20);
 
     const area =
         document.getElementById("quizArea");
 
     area.innerHTML = "";
 
-    createSection(
+    createReadSection(
         area,
-        "📖 読み問題",
         readQuestions
     );
 
-    createSection(
+    createWriteSection(
         area,
-        "✏️ 書き問題",
         writeQuestions
     );
 
 });
+
 }
 
-function createSection(area,title,list){
+function createReadSection(area,list){
 
     area.innerHTML +=
-    `<h2 class="section-title">${title}</h2>`;
+    `<h2 class="section-title">📖 読み問題</h2>`;
 
     list.forEach((q,index)=>{
 
-        const searchWord =
-            q.type === "read"
-            ? q.word
-            : q.answer;
-
         const wikiUrl =
             "https://ja.wikipedia.org/wiki/" +
-            encodeURIComponent(searchWord);
+            encodeURIComponent(q.kanji);
 
         const imageUrl =
             "https://www.google.com/search?tbm=isch&q=" +
-            encodeURIComponent(searchWord);
+            encodeURIComponent(q.kanji);
 
         area.innerHTML += `
 
         <div class="card">
 
             <div class="category">
-                ${q.category || ""}
+                ${q.category}
             </div>
 
             <div class="question">
-
-                ${index+1}.
-                ${
-                    q.type === "read"
-                    ? "【読み】 " + q.word
-                    : "【書き】 " + q.word
-                }
-
+                ${index+1}. 【読み】
+                ${q.kanji}
             </div>
 
             <details>
 
-                <summary>
-                解答・解説を見る
-                </summary>
+                <summary>解答・解説を見る</summary>
 
                 <div class="answer">
 
                     <strong>答え：</strong>
-
-                    ${q.answer}
+                    ${q.reading}
 
                     <br><br>
 
@@ -287,20 +250,12 @@ function createSection(area,title,list){
 
                     <div class="links">
 
-                        <a
-                        href="${wikiUrl}"
-                        target="_blank">
-
+                        <a href="${wikiUrl}" target="_blank">
                         📖 Wikipedia
-
                         </a>
 
-                        <a
-                        href="${imageUrl}"
-                        target="_blank">
-
+                        <a href="${imageUrl}" target="_blank">
                         🔍 画像検索
-
                         </a>
 
                     </div>
@@ -313,15 +268,78 @@ function createSection(area,title,list){
 
         `;
     });
+}
 
+
+function createWriteSection(area,list){
+
+    area.innerHTML +=
+    `<h2 class="section-title">✏️ 書き問題</h2>`;
+
+    list.forEach((q,index)=>{
+
+        const wikiUrl =
+            "https://ja.wikipedia.org/wiki/" +
+            encodeURIComponent(q.kanji);
+
+        const imageUrl =
+            "https://www.google.com/search?tbm=isch&q=" +
+            encodeURIComponent(q.kanji);
+
+        area.innerHTML += `
+
+        <div class="card">
+
+            <div class="category">
+                ${q.category}
+            </div>
+
+            <div class="question">
+                ${index+1}. 【書き】
+                ${q.reading}
+            </div>
+
+            <details>
+
+                <summary>解答・解説を見る</summary>
+
+                <div class="answer">
+
+                    <strong>答え：</strong>
+                    ${q.kanji}
+
+                    <br><br>
+
+                    ${q.description}
+
+                    <div class="links">
+
+                        <a href="${wikiUrl}" target="_blank">
+                        📖 Wikipedia
+                        </a>
+
+                        <a href="${imageUrl}" target="_blank">
+                        🔍 画像検索
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </details>
+
+        </div>
+
+        `;
+    });
 }
 
 function changeSet(){
 
     extraSeed =
-    Math.floor(
-        Math.random() * 999999
-    );
+        Math.floor(
+            Math.random()*999999
+        );
 
     loadQuiz();
 }

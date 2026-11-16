@@ -9,6 +9,7 @@
 <meta name="robots" content="noindex,nofollow">
 
 <style>
+
 body{
     margin:0;
     background:#f5f3ee;
@@ -45,7 +46,7 @@ button{
 }
 
 button:hover{
-    background:#0054aa;
+    background:#0055aa;
 }
 
 .section-title{
@@ -64,8 +65,8 @@ button:hover{
 }
 
 .category{
-    font-size:0.9rem;
     color:#777;
+    font-size:0.9rem;
 }
 
 .question{
@@ -86,7 +87,8 @@ button:hover{
 }
 
 .links a{
-    margin-right:20px;
+    display:inline-block;
+    margin-right:15px;
 }
 
 details summary{
@@ -100,7 +102,13 @@ footer{
     color:#666;
 }
 
-@media (max-width:768px){
+.error{
+    color:red;
+    text-align:center;
+    padding:20px;
+}
+
+@media(max-width:768px){
 
     .container{
         padding:10px;
@@ -125,29 +133,30 @@ footer{
         margin-bottom:10px;
     }
 }
+
 </style>
 </head>
 
 <body>
 
 <header>
-    <h1>中学受験 漢字トレーニング</h1>
-    <p>読み10問＋書き10問</p>
-    <div id="today"></div>
+<h1>中学受験 漢字トレーニング</h1>
+<p>読み10問＋書き10問</p>
+<div id="today"></div>
 </header>
 
 <div class="button-area">
-    <button onclick="changeSet()">
-        練習問題を作り直す
-    </button>
+<button onclick="changeSet()">
+練習問題を作り直す
+</button>
 </div>
 
-<div class="container" id="quizArea">
-    読込中...
+<div id="quizArea" class="container">
+読込中...
 </div>
 
 <footer>
-    Wikipediaと画像検索で理解を深めましょう
+Wikipediaと画像検索で理解を深めましょう
 </footer>
 
 <script>
@@ -155,7 +164,7 @@ footer{
 let extraSeed = 0;
 
 document.getElementById("today").textContent =
-    new Date().toLocaleDateString("ja-JP");
+new Date().toLocaleDateString("ja-JP");
 
 function seededRandom(seed){
     return function(){
@@ -164,29 +173,52 @@ function seededRandom(seed){
     };
 }
 
-function loadQuiz(){
+async function loadQuiz(){
 
-Promise.all([
+try{
 
-    fetch("questions.json").then(r => r.json()),
+    const results = await Promise.all([
 
-    fetch("questions2.json")
-        .then(r => r.ok ? r.json() : [] )
-        .catch(() => []),
+        fetch("questions_kanji.json")
+            .then(r => r.ok ? r.json() : [])
+            .catch(() => []),
 
-    fetch("questions3.json")
-        .then(r => r.ok ? r.json() : [] )
-        .catch(() => [])
+        fetch("questions_japan.json")
+            .then(r => r.ok ? r.json() : [])
+            .catch(() => []),
 
-])
+        fetch("questions_yojijukugo.json")
+            .then(r => r.ok ? r.json() : [])
+            .catch(() => []),
 
-.then(results => {
+        fetch("questions_kojiseigo.json")
+            .then(r => r.ok ? r.json() : [])
+            .catch(() => []),
 
-    const data = [
-        ...results[0],
-        ...results[1],
-        ...results[2]
-    ];
+        fetch("questions_kotowaza.json")
+            .then(r => r.ok ? r.json() : [])
+            .catch(() => []),
+
+        fetch("questions_kanyouku.json")
+            .then(r => r.ok ? r.json() : [])
+            .catch(() => [])
+
+    ]);
+
+    const data = results.flat();
+
+    const area =
+        document.getElementById("quizArea");
+
+    if(data.length < 20){
+
+        area.innerHTML = `
+        <div class="error">
+        問題数が20問未満です。
+        </div>
+        `;
+        return;
+    }
 
     const today = new Date();
 
@@ -200,7 +232,7 @@ Promise.all([
 
     const shuffled =
         [...data]
-        .sort(() => rnd() - 0.5);
+        .sort(() => rnd()-0.5);
 
     const readQuestions =
         shuffled.slice(0,10);
@@ -208,27 +240,21 @@ Promise.all([
     const writeQuestions =
         shuffled.slice(10,20);
 
-    const area =
-        document.getElementById("quizArea");
-
     area.innerHTML = "";
 
-    createReadSection(area, readQuestions);
-    createWriteSection(area, writeQuestions);
+    createReadSection(area,readQuestions);
+    createWriteSection(area,writeQuestions);
 
-})
+}
+catch(error){
 
-.catch(error => {
-
-    document.getElementById("quizArea").innerHTML = `
-        <div style="color:red">
-        問題ファイルの読み込みに失敗しました。
-        </div>
-    `;
+    document.getElementById("quizArea").innerHTML =
+    `<div class="error">
+    問題ファイルの読込に失敗しました
+    </div>`;
 
     console.error(error);
-
-});
+}
 
 }
 
@@ -251,7 +277,9 @@ function createReadSection(area,list){
 
         <div class="card">
 
-            <div class="category">${q.category}</div>
+            <div class="category">
+                ${q.category}
+            </div>
 
             <div class="question">
                 ${index+1}. ${q.kanji}
@@ -272,11 +300,13 @@ function createReadSection(area,list){
 
                     <div class="links">
 
-                        <a href="${wikiUrl}" target="_blank">
+                        <a href="${wikiUrl}"
+                           target="_blank">
                         📖 Wikipedia
                         </a>
 
-                        <a href="${imageUrl}" target="_blank">
+                        <a href="${imageUrl}"
+                           target="_blank">
                         🔍 画像検索
                         </a>
 
@@ -310,7 +340,9 @@ function createWriteSection(area,list){
 
         <div class="card">
 
-            <div class="category">${q.category}</div>
+            <div class="category">
+                ${q.category}
+            </div>
 
             <div class="question">
                 ${index+1}. ${q.reading}
@@ -331,11 +363,13 @@ function createWriteSection(area,list){
 
                     <div class="links">
 
-                        <a href="${wikiUrl}" target="_blank">
+                        <a href="${wikiUrl}"
+                           target="_blank">
                         📖 Wikipedia
                         </a>
 
-                        <a href="${imageUrl}" target="_blank">
+                        <a href="${imageUrl}"
+                           target="_blank">
                         🔍 画像検索
                         </a>
 
@@ -353,11 +387,10 @@ function createWriteSection(area,list){
 function changeSet(){
 
     extraSeed =
-        Math.floor(
-            Math.random() * 999999
-        );
+        Math.floor(Math.random()*999999);
 
     loadQuiz();
+
 }
 
 loadQuiz();

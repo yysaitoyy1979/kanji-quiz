@@ -163,14 +163,88 @@ Wikipediaと画像検索で理解を深めましょう
 
 let extraSeed = 0;
 
-document.getElementById("today").textContent =
-new Date().toLocaleDateString("ja-JP");
+const todayElement = document.getElementById("today");
+if (todayElement) {
+    todayElement.textContent = new Date().toLocaleDateString("ja-JP");
+}
 
 function seededRandom(seed){
     return function(){
         seed = (seed * 9301 + 49297) % 233280;
         return seed / 233280;
     };
+}
+
+function createLinkButton(url, label, isWikipedia = false){
+    const link = document.createElement("a");
+    link.href = url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = isWikipedia ? "📖 Wikipedia" : "🔍 画像検索";
+    return link;
+}
+
+function appendTextWithBreak(parent, text, addBreakBefore = false){
+    if (addBreakBefore) {
+        parent.appendChild(document.createElement("br"));
+        parent.appendChild(document.createElement("br"));
+    }
+    parent.appendChild(document.createTextNode(text));
+}
+
+function createQuestionCard(question, index, isReadQuestion){
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const category = document.createElement("div");
+    category.className = "category";
+    category.textContent = question.category;
+    card.appendChild(category);
+
+    const questionNode = document.createElement("div");
+    questionNode.className = "question";
+    questionNode.textContent = `${index + 1}. ${isReadQuestion ? question.kanji : question.reading}`;
+    card.appendChild(questionNode);
+
+    const details = document.createElement("details");
+
+    const summary = document.createElement("summary");
+    summary.textContent = "解答・解説を見る";
+    details.appendChild(summary);
+
+    const answer = document.createElement("div");
+    answer.className = "answer";
+
+    const answerLabel = document.createElement("strong");
+    answerLabel.textContent = "答え：";
+    answer.appendChild(answerLabel);
+    answer.appendChild(document.createTextNode(" "));
+    answer.appendChild(document.createTextNode(isReadQuestion ? question.reading : question.kanji));
+    answer.appendChild(document.createElement("br"));
+    answer.appendChild(document.createElement("br"));
+    answer.appendChild(document.createTextNode(question.description));
+
+    const links = document.createElement("div");
+    links.className = "links";
+
+    const wikiUrl = "https://ja.wikipedia.org/wiki/" + encodeURIComponent((question.kanji || ""));
+    const imageUrl = "https://www.google.com/search?tbm=isch&q=" + encodeURIComponent((question.kanji || ""));
+
+    links.appendChild(createLinkButton(wikiUrl, "Wikipedia", true));
+    links.appendChild(createLinkButton(imageUrl, "画像検索", false));
+    answer.appendChild(links);
+
+    details.appendChild(answer);
+    card.appendChild(details);
+
+    return card;
+}
+
+function createSectionTitle(titleText){
+    const heading = document.createElement("h2");
+    heading.className = "section-title";
+    heading.textContent = titleText;
+    return heading;
 }
 
 async function loadQuiz(){
@@ -196,8 +270,7 @@ try{
             .catch(() => []),
 
         fetch("questions_kotowaza.json")
-            .then(r => r.ok ? r.json() : [])
-            .catch(() => []),
+            .then(r => r.ok ? r.json() : []),
 
         fetch("questions_kanyouku.json")
             .then(r => r.ok ? r.json() : [])
@@ -207,16 +280,18 @@ try{
 
     const data = results.flat();
 
-    const area =
-        document.getElementById("quizArea");
+    const area = document.getElementById("quizArea");
+
+    if (!area) {
+        return;
+    }
 
     if(data.length < 20){
-
-        area.innerHTML = `
-        <div class="error">
-        問題数が20問未満です。
-        </div>
-        `;
+        area.innerHTML = "";
+        const error = document.createElement("div");
+        error.className = "error";
+        error.textContent = "問題数が20問未満です。";
+        area.appendChild(error);
         return;
     }
 
@@ -230,165 +305,48 @@ try{
 
     const rnd = seededRandom(seed);
 
-    const shuffled =
-        [...data]
-        .sort(() => rnd()-0.5);
+    const shuffled = [...data].sort(() => rnd()-0.5);
 
-    const readQuestions =
-        shuffled.slice(0,10);
-
-    const writeQuestions =
-        shuffled.slice(10,20);
+    const readQuestions = shuffled.slice(0,10);
+    const writeQuestions = shuffled.slice(10,20);
 
     area.innerHTML = "";
 
-    createReadSection(area,readQuestions);
-    createWriteSection(area,writeQuestions);
+    const readSection = document.createElement("section");
+    readSection.appendChild(createSectionTitle("📖 読み問題"));
+    readQuestions.forEach((q, index) => {
+        readSection.appendChild(createQuestionCard(q, index, true));
+    });
+
+    const writeSection = document.createElement("section");
+    writeSection.appendChild(createSectionTitle("✏️ 書き問題"));
+    writeQuestions.forEach((q, index) => {
+        writeSection.appendChild(createQuestionCard(q, index, false));
+    });
+
+    area.appendChild(readSection);
+    area.appendChild(writeSection);
 
 }
 catch(error){
 
-    document.getElementById("quizArea").innerHTML =
-    `<div class="error">
-    問題ファイルの読込に失敗しました
-    </div>`;
+    const area = document.getElementById("quizArea");
+    if (area) {
+        area.innerHTML = "";
+        const error = document.createElement("div");
+        error.className = "error";
+        error.textContent = "問題ファイルの読込に失敗しました";
+        area.appendChild(error);
+    }
 
     console.error(error);
 }
 
 }
 
-function createReadSection(area,list){
-
-    area.innerHTML +=
-    `<h2 class="section-title">📖 読み問題</h2>`;
-
-    list.forEach((q,index)=>{
-
-        const wikiUrl =
-            "https://ja.wikipedia.org/wiki/" +
-            encodeURIComponent(q.kanji);
-
-        const imageUrl =
-            "https://www.google.com/search?tbm=isch&q=" +
-            encodeURIComponent(q.kanji);
-
-        area.innerHTML += `
-
-        <div class="card">
-
-            <div class="category">
-                ${q.category}
-            </div>
-
-            <div class="question">
-                ${index+1}. ${q.kanji}
-            </div>
-
-            <details>
-
-                <summary>解答・解説を見る</summary>
-
-                <div class="answer">
-
-                    <strong>答え：</strong>
-                    ${q.reading}
-
-                    <br><br>
-
-                    ${q.description}
-
-                    <div class="links">
-
-                        <a href="${wikiUrl}"
-                           target="_blank">
-                        📖 Wikipedia
-                        </a>
-
-                        <a href="${imageUrl}"
-                           target="_blank">
-                        🔍 画像検索
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </details>
-
-        </div>
-        `;
-    });
-}
-
-function createWriteSection(area,list){
-
-    area.innerHTML +=
-    `<h2 class="section-title">✏️ 書き問題</h2>`;
-
-    list.forEach((q,index)=>{
-
-        const wikiUrl =
-            "https://ja.wikipedia.org/wiki/" +
-            encodeURIComponent(q.kanji);
-
-        const imageUrl =
-            "https://www.google.com/search?tbm=isch&q=" +
-            encodeURIComponent(q.kanji);
-
-        area.innerHTML += `
-
-        <div class="card">
-
-            <div class="category">
-                ${q.category}
-            </div>
-
-            <div class="question">
-                ${index+1}. ${q.reading}
-            </div>
-
-            <details>
-
-                <summary>解答・解説を見る</summary>
-
-                <div class="answer">
-
-                    <strong>答え：</strong>
-                    ${q.kanji}
-
-                    <br><br>
-
-                    ${q.description}
-
-                    <div class="links">
-
-                        <a href="${wikiUrl}"
-                           target="_blank">
-                        📖 Wikipedia
-                        </a>
-
-                        <a href="${imageUrl}"
-                           target="_blank">
-                        🔍 画像検索
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </details>
-
-        </div>
-        `;
-    });
-}
-
 function changeSet(){
 
-    extraSeed =
-        Math.floor(Math.random()*999999);
-
+    extraSeed = Math.floor(Math.random()*999999);
     loadQuiz();
 
 }

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,10 +24,6 @@ header{
     padding:30px 15px;
 }
 
-header h1{
-    margin:0;
-}
-
 .container{
     max-width:900px;
     margin:auto;
@@ -51,14 +46,14 @@ button{
 }
 
 button:hover{
-    background:#0052a3;
+    background:#0055aa;
 }
 
 .section-title{
+    margin-top:40px;
     color:#6b4b32;
     border-bottom:3px solid #6b4b32;
-    padding-bottom:6px;
-    margin-top:40px;
+    padding-bottom:8px;
 }
 
 .card{
@@ -76,8 +71,8 @@ button:hover{
 
 .question{
     font-size:1.6rem;
-    margin-top:10px;
     font-weight:bold;
+    margin-top:10px;
 }
 
 .answer{
@@ -95,16 +90,15 @@ button:hover{
     margin-right:15px;
 }
 
+details summary{
+    cursor:pointer;
+    font-weight:bold;
+}
+
 footer{
     text-align:center;
     padding:30px;
     color:#666;
-}
-
-details summary{
-    cursor:pointer;
-    margin-top:10px;
-    font-weight:bold;
 }
 
 @media (max-width:768px){
@@ -127,7 +121,7 @@ details summary{
 
     .question{
         font-size:1.2rem;
-        line-height:1.6;
+        line-height:1.5;
     }
 
     button{
@@ -147,23 +141,23 @@ details summary{
 <body>
 
 <header>
-    <h1>中学受験 漢字トレーニング</h1>
-    <p>読み10問＋書き10問</p>
-    <div id="today"></div>
+<h1>中学受験 漢字トレーニング</h1>
+<p>読み10問＋書き10問</p>
+<div id="today"></div>
 </header>
 
 <div class="button-area">
-    <button onclick="changeSet()">
-        別の問題セットを表示
-    </button>
+<button onclick="changeSet()">
+別の問題セットを表示
+</button>
 </div>
 
-<div class="container" id="quizArea">
-    読込中...
+<div id="quizArea" class="container">
+読込中...
 </div>
 
 <footer>
-    難読漢字・四字熟語・故事成語・日本文化を学ぼう
+Wikipediaと画像検索で理解を深めましょう
 </footer>
 
 <script>
@@ -183,14 +177,14 @@ function seededRandom(seed){
 function loadQuiz(){
 
 fetch("questions.json")
-.then(response => response.json())
+.then(res => res.json())
 .then(data => {
 
     const today = new Date();
 
     const seed =
-        today.getFullYear() * 10000 +
-        (today.getMonth()+1) * 100 +
+        today.getFullYear()*10000 +
+        (today.getMonth()+1)*100 +
         today.getDate() +
         extraSeed;
 
@@ -199,13 +193,21 @@ fetch("questions.json")
     const readQuestions =
         data
         .filter(q => q.type === "read")
-        .sort(() => rnd() - 0.5)
+        .sort(() => rnd()-0.5)
         .slice(0,10);
+
+    const usedIds =
+        new Set(
+            readQuestions.map(q => q.id)
+        );
 
     const writeQuestions =
         data
-        .filter(q => q.type === "write")
-        .sort(() => rnd() - 0.5)
+        .filter(q =>
+            q.type === "write" &&
+            !usedIds.has(q.id)
+        )
+        .sort(() => rnd()-0.5)
         .slice(0,10);
 
     const area =
@@ -258,8 +260,7 @@ function createSection(area,title,list){
 
             <div class="question">
 
-                ${index + 1}.
-
+                ${index+1}.
                 ${
                     q.type === "read"
                     ? "【読み】 " + q.word
@@ -277,11 +278,12 @@ function createSection(area,title,list){
                 <div class="answer">
 
                     <strong>答え：</strong>
-                    ${q.answer || ""}
+
+                    ${q.answer}
 
                     <br><br>
 
-                    ${q.description || ""}
+                    ${q.description}
 
                     <div class="links">
 
@@ -308,17 +310,20 @@ function createSection(area,title,list){
             </details>
 
         </div>
+
         `;
     });
+
 }
 
 function changeSet(){
 
     extraSeed =
-    Math.floor(Math.random()*100000);
+    Math.floor(
+        Math.random() * 999999
+    );
 
     loadQuiz();
-
 }
 
 loadQuiz();

@@ -1,62 +1,181 @@
 [
-  {
-    "word":"目深",
-    "reading":"めぶか",
-    "description":"帽子などを目が隠れるほど深くかぶること。"
-  },
-  {
-    "word":"初陣",
-    "reading":"ういじん",
-    "description":"初めて戦いに参加すること。"
-  },
-  {
-    "word":"縁側",
-    "reading":"えんがわ",
-    "description":"座敷と庭をつなぐ板張りの通路。"
-  },
-  {
-    "word":"座敷",
-    "reading":"ざしき",
-    "description":"畳が敷かれた和室。"
-  },
-  {
-    "word":"行灯",
-    "reading":"あんどん",
-    "description":"昔の照明器具。"
-  },
-  {
-    "word":"旅籠",
-    "reading":"はたご",
-    "description":"江戸時代の宿屋。"
-  },
-  {
-    "word":"囲炉裏",
-    "reading":"いろり",
-    "description":"床を四角く切って火を焚く設備。"
-  },
-  {
-    "word":"雪洞",
-    "reading":"ぼんぼり",
-    "description":"ひな祭りなどで使われる灯火具。"
-  },
-  {
-    "word":"神楽",
-    "reading":"かぐら",
-    "description":"神社で奉納される芸能。"
-  },
-  {
-    "word":"老舗",
-    "reading":"しにせ",
-    "description":"長年続く店。"
-  },
-  {
-    "word":"簾",
-    "reading":"すだれ",
-    "description":"竹などを編んで作る日よけ。"
-  },
-  {
-    "word":"襖",
-    "reading":"ふすま",
-    "description":"和室の仕切り戸。"
-  }
+{
+"type":"read",
+"category":"難読漢字",
+"word":"初陣",
+"answer":"ういじん",
+"description":"初めて戦いに参加すること。",
+"wiki":"https://ja.wikipedia.org/wiki/初陣"
+},
+
+{
+"type":"read",
+"category":"難読漢字",
+"word":"老舗",
+"answer":"しにせ",
+"description":"長年続いている店。",
+"wiki":"https://ja.wikipedia.org/wiki/老舗"
+},
+
+{
+"type":"read",
+"category":"日本文化",
+"word":"襖",
+"answer":"ふすま",
+"description":"和室の仕切り戸。",
+"wiki":"https://ja.wikipedia.org/wiki/襖"
+},
+
+{
+"type":"read",
+"category":"日本文化",
+"word":"簾",
+"answer":"すだれ",
+"description":"竹を編んで作る日よけ。",
+"wiki":"https://ja.wikipedia.org/wiki/簾"
+},
+
+{
+"type":"read",
+"category":"日本文化",
+"word":"囲炉裏",
+"answer":"いろり",
+"description":"昔の民家で使われた炉。",
+"wiki":"https://ja.wikipedia.org/wiki/囲炉裏"
+},
+
+{
+"type":"read",
+"category":"日本文化",
+"word":"神楽",
+"answer":"かぐら",
+"description":"神社で奉納される芸能。",
+"wiki":"https://ja.wikipedia.org/wiki/神楽"
+},
+
+{
+"type":"write",
+"category":"日本文化",
+"word":"えんがわ",
+"answer":"縁側",
+"description":"座敷と庭をつなぐ場所。",
+"wiki":"https://ja.wikipedia.org/wiki/縁側"
+},
+
+{
+"type":"write",
+"category":"日本文化",
+"word":"ざしき",
+"answer":"座敷",
+"description":"畳の部屋。",
+"wiki":"https://ja.wikipedia.org/wiki/座敷"
+},
+
+{
+"type":"write",
+"category":"難読漢字",
+"word":"しにせ",
+"answer":"老舗",
+"description":"代々続く店。",
+"wiki":"https://ja.wikipedia.org/wiki/老舗"
+},
+
+{
+"type":"write",
+"category":"難読漢字",
+"word":"ういじん",
+"answer":"初陣",
+"description":"初めて戦うこと。",
+"wiki":"https://ja.wikipedia.org/wiki/初陣"
+},
+
+{
+"type":"read",
+"category":"故事成語",
+"word":"杞憂",
+"answer":"きゆう",
+"description":"必要のない心配。",
+"wiki":"https://ja.wikipedia.org/wiki/杞憂"
+},
+
+{
+"type":"read",
+"category":"故事成語",
+"word":"画竜点睛",
+"answer":"がりょうてんせい",
+"description":"最後の仕上げ。",
+"wiki":"https://ja.wikipedia.org/wiki/画竜点睛"
+},
+
+{
+"type":"write",
+"category":"故事成語",
+"word":"きゆう",
+"answer":"杞憂",
+"description":"無用な心配。",
+"wiki":"https://ja.wikipedia.org/wiki/杞憂"
+},
+
+{
+"type":"write",
+"category":"故事成語",
+"word":"がりょうてんせい",
+"answer":"画竜点睛",
+"description":"最後の仕上げ。",
+"wiki":"https://ja.wikipedia.org/wiki/画竜点睛"
+},
+
+{
+"type":"read",
+"category":"四字熟語",
+"word":"温故知新",
+"answer":"おんこちしん",
+"description":"古いことを学び新しい知識を得る。",
+"wiki":"https://ja.wikipedia.org/wiki/温故知新"
+},
+
+{
+"type":"read",
+"category":"四字熟語",
+"word":"切磋琢磨",
+"answer":"せっさたくま",
+"description":"互いに努力して向上する。",
+"wiki":"https://ja.wikipedia.org/wiki/切磋琢磨"
+},
+
+{
+"type":"write",
+"category":"四字熟語",
+"word":"おんこちしん",
+"answer":"温故知新",
+"description":"昔のことを学ぶ。",
+"wiki":"https://ja.wikipedia.org/wiki/温故知新"
+},
+
+{
+"type":"write",
+"category":"四字熟語",
+"word":"せっさたくま",
+"answer":"切磋琢磨",
+"description":"励まし合い成長する。",
+"wiki":"https://ja.wikipedia.org/wiki/切磋琢磨"
+},
+
+{
+"type":"read",
+"category":"ことわざ",
+"word":"他山の石",
+"answer":"たざんのいし",
+"description":"他人の失敗も学びになる。",
+"wiki":"https://ja.wikipedia.org/wiki/他山の石"
+},
+
+{
+"type":"write",
+"category":"ことわざ",
+"word":"たざんのいし",
+"answer":"他山の石",
+"description":"他人の行動も参考になる。",
+"wiki":"https://ja.wikipedia.org/wiki/他山の石"
+}
 ]

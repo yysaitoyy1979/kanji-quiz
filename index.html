@@ -9,7 +9,6 @@
 <meta name="robots" content="noindex,nofollow">
 
 <style>
-
 body{
     margin:0;
     background:#f5f3ee;
@@ -43,6 +42,10 @@ button{
     color:white;
     cursor:pointer;
     font-size:16px;
+}
+
+button:hover{
+    background:#0054aa;
 }
 
 .section-title{
@@ -83,18 +86,18 @@ button{
 }
 
 .links a{
-    margin-right:15px;
+    margin-right:20px;
+}
+
+details summary{
+    cursor:pointer;
+    font-weight:bold;
 }
 
 footer{
     text-align:center;
     padding:30px;
     color:#666;
-}
-
-details summary{
-    cursor:pointer;
-    font-weight:bold;
 }
 
 @media (max-width:768px){
@@ -121,7 +124,6 @@ details summary{
         display:block;
         margin-bottom:10px;
     }
-
 }
 </style>
 </head>
@@ -129,23 +131,23 @@ details summary{
 <body>
 
 <header>
-<h1>中学受験 漢字トレーニング</h1>
-<p>読み10問＋書き10問</p>
-<div id="today"></div>
+    <h1>中学受験 漢字トレーニング</h1>
+    <p>読み10問＋書き10問</p>
+    <div id="today"></div>
 </header>
 
 <div class="button-area">
-<button onclick="changeSet()">
-練習問題を作り直す
-</button>
+    <button onclick="changeSet()">
+        練習問題を作り直す
+    </button>
 </div>
 
 <div class="container" id="quizArea">
-読込中...
+    読込中...
 </div>
 
 <footer>
-Wikipediaと画像検索で理解を深めましょう
+    Wikipediaと画像検索で理解を深めましょう
 </footer>
 
 <script>
@@ -153,7 +155,7 @@ Wikipediaと画像検索で理解を深めましょう
 let extraSeed = 0;
 
 document.getElementById("today").textContent =
-new Date().toLocaleDateString("ja-JP");
+    new Date().toLocaleDateString("ja-JP");
 
 function seededRandom(seed){
     return function(){
@@ -164,9 +166,27 @@ function seededRandom(seed){
 
 function loadQuiz(){
 
-fetch("questions.json")
-.then(res => res.json())
-.then(data => {
+Promise.all([
+
+    fetch("questions.json").then(r => r.json()),
+
+    fetch("questions2.json")
+        .then(r => r.ok ? r.json() : [] )
+        .catch(() => []),
+
+    fetch("questions3.json")
+        .then(r => r.ok ? r.json() : [] )
+        .catch(() => [])
+
+])
+
+.then(results => {
+
+    const data = [
+        ...results[0],
+        ...results[1],
+        ...results[2]
+    ];
 
     const today = new Date();
 
@@ -193,15 +213,20 @@ fetch("questions.json")
 
     area.innerHTML = "";
 
-    createReadSection(
-        area,
-        readQuestions
-    );
+    createReadSection(area, readQuestions);
+    createWriteSection(area, writeQuestions);
 
-    createWriteSection(
-        area,
-        writeQuestions
-    );
+})
+
+.catch(error => {
+
+    document.getElementById("quizArea").innerHTML = `
+        <div style="color:red">
+        問題ファイルの読み込みに失敗しました。
+        </div>
+    `;
+
+    console.error(error);
 
 });
 
@@ -226,13 +251,10 @@ function createReadSection(area,list){
 
         <div class="card">
 
-            <div class="category">
-                ${q.category}
-            </div>
+            <div class="category">${q.category}</div>
 
             <div class="question">
-                ${index+1}. 
-                ${q.kanji}
+                ${index+1}. ${q.kanji}
             </div>
 
             <details>
@@ -265,11 +287,9 @@ function createReadSection(area,list){
             </details>
 
         </div>
-
         `;
     });
 }
-
 
 function createWriteSection(area,list){
 
@@ -290,13 +310,10 @@ function createWriteSection(area,list){
 
         <div class="card">
 
-            <div class="category">
-                ${q.category}
-            </div>
+            <div class="category">${q.category}</div>
 
             <div class="question">
-                ${index+1}. 
-                ${q.reading}
+                ${index+1}. ${q.reading}
             </div>
 
             <details>
@@ -329,7 +346,6 @@ function createWriteSection(area,list){
             </details>
 
         </div>
-
         `;
     });
 }
@@ -338,7 +354,7 @@ function changeSet(){
 
     extraSeed =
         Math.floor(
-            Math.random()*999999
+            Math.random() * 999999
         );
 
     loadQuiz();

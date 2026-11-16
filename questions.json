@@ -1,181 +1,163 @@
 [
-{
-"type":"read",
-"category":"難読漢字",
-"word":"初陣",
-"answer":"ういじん",
-"description":"初めて戦いに参加すること。",
-"wiki":"https://ja.wikipedia.org/wiki/初陣"
-},
+  {
+    "id":"uisin",
+    "type":"read",
+    "category":"難読漢字",
+    "word":"初陣",
+    "answer":"ういじん",
+    "description":"初めて戦いに参加すること。"
+  },
+  {
+    "id":"sinise",
+    "type":"read",
+    "category":"難読漢字",
+    "word":"老舗",
+    "answer":"しにせ",
+    "description":"長年続いている店。"
+  },
+  {
+    "id":"fusuma",
+    "type":"read",
+    "category":"日本文化",
+    "word":"襖",
+    "answer":"ふすま",
+    "description":"和室の仕切り戸。"
+  },
+  {
+    "id":"sudare",
+    "type":"read",
+    "category":"日本文化",
+    "word":"簾",
+    "answer":"すだれ",
+    "description":"竹などを編んで作る日よけ。"
+  },
+  {
+    "id":"irori",
+    "type":"read",
+    "category":"日本文化",
+    "word":"囲炉裏",
+    "answer":"いろり",
+    "description":"昔の家で暖房や調理に使われた炉。"
+  },
+  {
+    "id":"kagura",
+    "type":"read",
+    "category":"日本文化",
+    "word":"神楽",
+    "answer":"かぐら",
+    "description":"神社で奉納される伝統芸能。"
+  },
+  {
+    "id":"kiyuu",
+    "type":"read",
+    "category":"故事成語",
+    "word":"杞憂",
+    "answer":"きゆう",
+    "description":"必要以上の心配。"
+  },
+  {
+    "id":"garyoutensei",
+    "type":"read",
+    "category":"故事成語",
+    "word":"画竜点睛",
+    "answer":"がりょうてんせい",
+    "description":"最後の大切な仕上げ。"
+  },
+  {
+    "id":"onkotisin",
+    "type":"read",
+    "category":"四字熟語",
+    "word":"温故知新",
+    "answer":"おんこちしん",
+    "description":"古いことを学び新たな知識を得る。"
+  },
+  {
+    "id":"sessatakuma",
+    "type":"read",
+    "category":"四字熟語",
+    "word":"切磋琢磨",
+    "answer":"せっさたくま",
+    "description":"互いに励まし合い向上すること。"
+  },
 
-{
-"type":"read",
-"category":"難読漢字",
-"word":"老舗",
-"answer":"しにせ",
-"description":"長年続いている店。",
-"wiki":"https://ja.wikipedia.org/wiki/老舗"
-},
-
-{
-"type":"read",
-"category":"日本文化",
-"word":"襖",
-"answer":"ふすま",
-"description":"和室の仕切り戸。",
-"wiki":"https://ja.wikipedia.org/wiki/襖"
-},
-
-{
-"type":"read",
-"category":"日本文化",
-"word":"簾",
-"answer":"すだれ",
-"description":"竹を編んで作る日よけ。",
-"wiki":"https://ja.wikipedia.org/wiki/簾"
-},
-
-{
-"type":"read",
-"category":"日本文化",
-"word":"囲炉裏",
-"answer":"いろり",
-"description":"昔の民家で使われた炉。",
-"wiki":"https://ja.wikipedia.org/wiki/囲炉裏"
-},
-
-{
-"type":"read",
-"category":"日本文化",
-"word":"神楽",
-"answer":"かぐら",
-"description":"神社で奉納される芸能。",
-"wiki":"https://ja.wikipedia.org/wiki/神楽"
-},
-
-{
-"type":"write",
-"category":"日本文化",
-"word":"えんがわ",
-"answer":"縁側",
-"description":"座敷と庭をつなぐ場所。",
-"wiki":"https://ja.wikipedia.org/wiki/縁側"
-},
-
-{
-"type":"write",
-"category":"日本文化",
-"word":"ざしき",
-"answer":"座敷",
-"description":"畳の部屋。",
-"wiki":"https://ja.wikipedia.org/wiki/座敷"
-},
-
-{
-"type":"write",
-"category":"難読漢字",
-"word":"しにせ",
-"answer":"老舗",
-"description":"代々続く店。",
-"wiki":"https://ja.wikipedia.org/wiki/老舗"
-},
-
-{
-"type":"write",
-"category":"難読漢字",
-"word":"ういじん",
-"answer":"初陣",
-"description":"初めて戦うこと。",
-"wiki":"https://ja.wikipedia.org/wiki/初陣"
-},
-
-{
-"type":"read",
-"category":"故事成語",
-"word":"杞憂",
-"answer":"きゆう",
-"description":"必要のない心配。",
-"wiki":"https://ja.wikipedia.org/wiki/杞憂"
-},
-
-{
-"type":"read",
-"category":"故事成語",
-"word":"画竜点睛",
-"answer":"がりょうてんせい",
-"description":"最後の仕上げ。",
-"wiki":"https://ja.wikipedia.org/wiki/画竜点睛"
-},
-
-{
-"type":"write",
-"category":"故事成語",
-"word":"きゆう",
-"answer":"杞憂",
-"description":"無用な心配。",
-"wiki":"https://ja.wikipedia.org/wiki/杞憂"
-},
-
-{
-"type":"write",
-"category":"故事成語",
-"word":"がりょうてんせい",
-"answer":"画竜点睛",
-"description":"最後の仕上げ。",
-"wiki":"https://ja.wikipedia.org/wiki/画竜点睛"
-},
-
-{
-"type":"read",
-"category":"四字熟語",
-"word":"温故知新",
-"answer":"おんこちしん",
-"description":"古いことを学び新しい知識を得る。",
-"wiki":"https://ja.wikipedia.org/wiki/温故知新"
-},
-
-{
-"type":"read",
-"category":"四字熟語",
-"word":"切磋琢磨",
-"answer":"せっさたくま",
-"description":"互いに努力して向上する。",
-"wiki":"https://ja.wikipedia.org/wiki/切磋琢磨"
-},
-
-{
-"type":"write",
-"category":"四字熟語",
-"word":"おんこちしん",
-"answer":"温故知新",
-"description":"昔のことを学ぶ。",
-"wiki":"https://ja.wikipedia.org/wiki/温故知新"
-},
-
-{
-"type":"write",
-"category":"四字熟語",
-"word":"せっさたくま",
-"answer":"切磋琢磨",
-"description":"励まし合い成長する。",
-"wiki":"https://ja.wikipedia.org/wiki/切磋琢磨"
-},
-
-{
-"type":"read",
-"category":"ことわざ",
-"word":"他山の石",
-"answer":"たざんのいし",
-"description":"他人の失敗も学びになる。",
-"wiki":"https://ja.wikipedia.org/wiki/他山の石"
-},
-
-{
-"type":"write",
-"category":"ことわざ",
-"word":"たざんのいし",
-"answer":"他山の石",
-"description":"他人の行動も参考になる。",
-"wiki":"https://ja.wikipedia.org/wiki/他山の石"
-}
+  {
+    "id":"engawa",
+    "type":"write",
+    "category":"日本文化",
+    "word":"えんがわ",
+    "answer":"縁側",
+    "description":"和室と庭の間にある板張りの場所。"
+  },
+  {
+    "id":"zashiki",
+    "type":"write",
+    "category":"日本文化",
+    "word":"ざしき",
+    "answer":"座敷",
+    "description":"畳が敷かれた和室。"
+  },
+  {
+    "id":"ryokan",
+    "type":"write",
+    "category":"日本文化",
+    "word":"りょかん",
+    "answer":"旅館",
+    "description":"和風の宿泊施設。"
+  },
+  {
+    "id":"syouji",
+    "type":"write",
+    "category":"日本文化",
+    "word":"しょうじ",
+    "answer":"障子",
+    "description":"和紙を貼った建具。"
+  },
+  {
+    "id":"hatago",
+    "type":"write",
+    "category":"日本文化",
+    "word":"はたご",
+    "answer":"旅籠",
+    "description":"江戸時代の宿屋。"
+  },
+  {
+    "id":"tasannoisi",
+    "type":"write",
+    "category":"ことわざ",
+    "word":"たざんのいし",
+    "answer":"他山の石",
+    "description":"他人の失敗も自分の学びになる。"
+  },
+  {
+    "id":"isyindensin",
+    "type":"write",
+    "category":"四字熟語",
+    "word":"いしんでんしん",
+    "answer":"以心伝心",
+    "description":"言葉にしなくても心が通じること。"
+  },
+  {
+    "id":"itiichie",
+    "type":"write",
+    "category":"四字熟語",
+    "word":"いちごいちえ",
+    "answer":"一期一会",
+    "description":"一生に一度の出会いを大切にすること。"
+  },
+  {
+    "id":"yuuki",
+    "type":"write",
+    "category":"よく出る漢字",
+    "word":"ゆうき",
+    "answer":"勇気",
+    "description":"困難に立ち向かう心。"
+  },
+  {
+    "id":"dokuritsu",
+    "type":"write",
+    "category":"よく出る漢字",
+    "word":"どくりつ",
+    "answer":"独立",
+    "description":"他に頼らず自分の力で成り立つこと。"
+  }
 ]

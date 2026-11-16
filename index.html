@@ -5,11 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>中学受験 漢字トレーニング</title>
-
 <meta name="robots" content="noindex,nofollow">
 
 <style>
-
 body{
     margin:0;
     background:#f5f3ee;
@@ -35,12 +33,17 @@ header{
 }
 
 button{
-    padding:10px 16px;
+    padding:12px 20px;
     border:none;
     border-radius:8px;
     background:#0066cc;
     color:white;
     cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    background:#0054aa;
 }
 
 .card{
@@ -75,7 +78,7 @@ button{
 
 .links a{
     display:inline-block;
-    margin-right:15px;
+    margin-right:20px;
 }
 
 footer{
@@ -83,29 +86,30 @@ footer{
     padding:30px;
     color:#666;
 }
-
 </style>
+
 </head>
+
 <body>
 
 <header>
-<h1>中学受験 漢字トレーニング</h1>
-<p>毎日10問の漢字・語彙問題</p>
-<div id="today"></div>
+    <h1>中学受験 漢字トレーニング</h1>
+    <p>毎日10問の漢字・語彙問題</p>
+    <div id="today"></div>
 </header>
 
 <div class="button-area">
-<button onclick="changeSet()">
-別の問題セットを表示
-</button>
+    <button onclick="changeSet()">
+        別の問題セットを表示
+    </button>
 </div>
 
 <div class="container" id="quizArea">
-読込中...
+    読込中...
 </div>
 
 <footer>
-Wikipediaと画像検索で理解を深めましょう
+    Wikipediaと画像検索で理解を深めましょう
 </footer>
 
 <script>
@@ -119,13 +123,13 @@ function seededRandom(seed){
     return function(){
         seed = (seed * 9301 + 49297) % 233280;
         return seed / 233280;
-    }
+    };
 }
 
 function loadQuiz(){
 
 fetch("questions.json")
-.then(res => res.json())
+.then(response => response.json())
 .then(data => {
 
     const today = new Date();
@@ -140,73 +144,74 @@ fetch("questions.json")
 
     const selected =
         [...data]
-        .sort(()=>rnd()-0.5)
+        .sort(() => rnd() - 0.5)
         .slice(0,10);
 
     const area =
         document.getElementById("quizArea");
 
-    area.innerHTML="";
+    area.innerHTML = "";
 
     selected.forEach((q,i)=>{
 
+        const searchWord =
+            q.type === "read"
+            ? q.word
+            : q.answer;
+
+        const wikiUrl =
+            "https://ja.wikipedia.org/wiki/" +
+            encodeURIComponent(searchWord);
+
         const googleImage =
-        "https://www.google.com/search?tbm=isch&q=" +
-        encodeURIComponent(q.word);
+            "https://www.google.com/search?tbm=isch&q=" +
+            encodeURIComponent(searchWord);
 
         area.innerHTML += `
 
         <div class="card">
 
             <div class="category">
-            ${q.category}
+                ${q.category || ""}
             </div>
 
             <div class="question">
-
-            ${i+1}.
-
-            ${q.type === "read"
-                ? "【読み】 " + q.word
-                : "【書き】 " + q.word
-            }
-
+                ${i+1}.
+                ${q.type === "read"
+                    ? "【読み】 " + q.word
+                    : "【書き】 " + q.word}
             </div>
 
             <details>
 
-            <summary>
-            解答・解説を見る
-            </summary>
+                <summary>
+                    解答・解説を見る
+                </summary>
 
-            <div class="answer">
+                <div class="answer">
 
-            <strong>答え：</strong>
-            ${q.answer}
+                    <strong>答え：</strong>
+                    ${q.answer || ""}
 
-            <br><br>
+                    <br><br>
 
-            ${q.description}
+                    ${q.description || ""}
 
-            <div class="links">
+                    <div class="links">
 
-            <a href="${q.wiki}"
-               target="_blank">
+                        <a href="${wikiUrl}"
+                           target="_blank">
+                           📖 Wikipedia
+                        </a>
 
-            📖 Wikipedia
+                        <a href="${googleImage}"
+                           target="_blank">
+                           🔍 画像検索
+                        </a>
 
-            </a>
+                    </div>
 
-            <a href="${googleImage}"
-               target="_blank">
-
-            🔍 画像検索
-
-            </a>
-
-            </div>
-
-            </div>
+                </div>
 
             </details>
 
@@ -214,7 +219,16 @@ fetch("questions.json")
         `;
     });
 
+})
+.catch(error => {
+
+    document.getElementById("quizArea").innerHTML =
+    "<p>questions.json の読込に失敗しました。</p>";
+
+    console.error(error);
+
 });
+
 }
 
 function changeSet(){
@@ -223,6 +237,7 @@ function changeSet(){
     Math.floor(Math.random()*100000);
 
     loadQuiz();
+
 }
 
 loadQuiz();

@@ -1,24 +1,32 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>中学受験 漢字トレーニング</title>
+
 <meta name="robots" content="noindex,nofollow">
 
 <style>
+
 body{
     margin:0;
     background:#f5f3ee;
     font-family:"Yu Gothic","Meiryo",sans-serif;
+    color:#333;
 }
 
 header{
     background:#6b4b32;
     color:white;
     text-align:center;
-    padding:35px;
+    padding:30px 15px;
+}
+
+header h1{
+    margin:0;
 }
 
 .container{
@@ -43,7 +51,14 @@ button{
 }
 
 button:hover{
-    background:#0054aa;
+    background:#0052a3;
+}
+
+.section-title{
+    color:#6b4b32;
+    border-bottom:3px solid #6b4b32;
+    padding-bottom:6px;
+    margin-top:40px;
 }
 
 .card{
@@ -55,13 +70,13 @@ button:hover{
 }
 
 .category{
-    color:#666;
+    color:#777;
     font-size:0.9rem;
 }
 
 .question{
-    font-size:1.8rem;
-    margin-top:8px;
+    font-size:1.6rem;
+    margin-top:10px;
     font-weight:bold;
 }
 
@@ -77,8 +92,7 @@ button:hover{
 }
 
 .links a{
-    display:inline-block;
-    margin-right:20px;
+    margin-right:15px;
 }
 
 footer{
@@ -86,15 +100,55 @@ footer{
     padding:30px;
     color:#666;
 }
-</style>
 
+details summary{
+    cursor:pointer;
+    margin-top:10px;
+    font-weight:bold;
+}
+
+@media (max-width:768px){
+
+    header{
+        padding:20px 10px;
+    }
+
+    header h1{
+        font-size:1.8rem;
+    }
+
+    .container{
+        padding:10px;
+    }
+
+    .card{
+        padding:15px;
+    }
+
+    .question{
+        font-size:1.2rem;
+        line-height:1.6;
+    }
+
+    button{
+        width:95%;
+        max-width:320px;
+    }
+
+    .links a{
+        display:block;
+        margin-bottom:10px;
+    }
+
+}
+</style>
 </head>
 
 <body>
 
 <header>
     <h1>中学受験 漢字トレーニング</h1>
-    <p>毎日10問の漢字・語彙問題</p>
+    <p>読み10問＋書き10問</p>
     <div id="today"></div>
 </header>
 
@@ -109,7 +163,7 @@ footer{
 </div>
 
 <footer>
-    Wikipediaと画像検索で理解を深めましょう
+    難読漢字・四字熟語・故事成語・日本文化を学ぼう
 </footer>
 
 <script>
@@ -135,15 +189,22 @@ fetch("questions.json")
     const today = new Date();
 
     const seed =
-        today.getFullYear()*10000 +
-        (today.getMonth()+1)*100 +
+        today.getFullYear() * 10000 +
+        (today.getMonth()+1) * 100 +
         today.getDate() +
         extraSeed;
 
     const rnd = seededRandom(seed);
 
-    const selected =
-        [...data]
+    const readQuestions =
+        data
+        .filter(q => q.type === "read")
+        .sort(() => rnd() - 0.5)
+        .slice(0,10);
+
+    const writeQuestions =
+        data
+        .filter(q => q.type === "write")
         .sort(() => rnd() - 0.5)
         .slice(0,10);
 
@@ -152,7 +213,27 @@ fetch("questions.json")
 
     area.innerHTML = "";
 
-    selected.forEach((q,i)=>{
+    createSection(
+        area,
+        "📖 読み問題",
+        readQuestions
+    );
+
+    createSection(
+        area,
+        "✏️ 書き問題",
+        writeQuestions
+    );
+
+});
+}
+
+function createSection(area,title,list){
+
+    area.innerHTML +=
+    `<h2 class="section-title">${title}</h2>`;
+
+    list.forEach((q,index)=>{
 
         const searchWord =
             q.type === "read"
@@ -163,7 +244,7 @@ fetch("questions.json")
             "https://ja.wikipedia.org/wiki/" +
             encodeURIComponent(searchWord);
 
-        const googleImage =
+        const imageUrl =
             "https://www.google.com/search?tbm=isch&q=" +
             encodeURIComponent(searchWord);
 
@@ -176,16 +257,21 @@ fetch("questions.json")
             </div>
 
             <div class="question">
-                ${i+1}.
-                ${q.type === "read"
+
+                ${index + 1}.
+
+                ${
+                    q.type === "read"
                     ? "【読み】 " + q.word
-                    : "【書き】 " + q.word}
+                    : "【書き】 " + q.word
+                }
+
             </div>
 
             <details>
 
                 <summary>
-                    解答・解説を見る
+                解答・解説を見る
                 </summary>
 
                 <div class="answer">
@@ -199,14 +285,20 @@ fetch("questions.json")
 
                     <div class="links">
 
-                        <a href="${wikiUrl}"
-                           target="_blank">
-                           📖 Wikipedia
+                        <a
+                        href="${wikiUrl}"
+                        target="_blank">
+
+                        📖 Wikipedia
+
                         </a>
 
-                        <a href="${googleImage}"
-                           target="_blank">
-                           🔍 画像検索
+                        <a
+                        href="${imageUrl}"
+                        target="_blank">
+
+                        🔍 画像検索
+
                         </a>
 
                     </div>
@@ -218,17 +310,6 @@ fetch("questions.json")
         </div>
         `;
     });
-
-})
-.catch(error => {
-
-    document.getElementById("quizArea").innerHTML =
-    "<p>questions.json の読込に失敗しました。</p>";
-
-    console.error(error);
-
-});
-
 }
 
 function changeSet(){

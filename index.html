@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>本日の漢字クイズ</title>
 
@@ -11,24 +11,16 @@
 <style>
 body{
     margin:0;
-    font-family: "Yu Gothic","Hiragino Sans","Meiryo",sans-serif;
-    background:#f7f4ee;
+    background:#f4f1ea;
+    font-family:"Yu Gothic","Meiryo",sans-serif;
     color:#333;
 }
 
 header{
-    background:#6b4f3a;
+    background:#6d4c41;
     color:white;
     text-align:center;
-    padding:30px 20px;
-}
-
-header h1{
-    margin:0;
-}
-
-header p{
-    margin-top:10px;
+    padding:40px 20px;
 }
 
 .container{
@@ -39,33 +31,35 @@ header p{
 
 .card{
     background:white;
-    border-radius:12px;
+    margin:20px 0;
     padding:20px;
-    margin-bottom:18px;
+    border-radius:12px;
     box-shadow:0 2px 6px rgba(0,0,0,.1);
 }
 
 .question{
-    font-size:1.4rem;
-    font-weight:bold;
-    margin-bottom:10px;
-}
-
-details{
-    margin-top:10px;
-}
-
-summary{
-    cursor:pointer;
-    color:#005bbb;
+    font-size:1.8rem;
     font-weight:bold;
 }
 
 .answer{
+    background:#eef4ff;
     margin-top:15px;
     padding:15px;
-    background:#f4f8ff;
-    border-left:5px solid #005bbb;
+    border-left:5px solid #2469d9;
+}
+
+details summary{
+    cursor:pointer;
+    color:#2469d9;
+    font-weight:bold;
+    margin-top:15px;
+}
+
+.date{
+    text-align:center;
+    margin-top:10px;
+    color:#ddd;
 }
 
 footer{
@@ -79,128 +73,77 @@ footer{
 <body>
 
 <header>
-<h1>本日の漢字クイズ</h1>
-<p>難読漢字と昔ながらの日本文化を学ぼう</p>
+    <h1>本日の漢字クイズ</h1>
+    <div class="date" id="today"></div>
 </header>
 
-<div class="container">
-
-<div class="card">
-<div class="question">① 目深</div>
-<details>
-<summary>解答・解説を見る</summary>
-<div class="answer">
-<b>めぶか</b><br><br>
-帽子などを目が隠れるほど深くかぶること。<br>
-例：「帽子を目深にかぶる」
-</div>
-</details>
-</div>
-
-<div class="card">
-<div class="question">② 初陣</div>
-<details>
-<summary>解答・解説を見る</summary>
-<div class="answer">
-<b>ういじん</b><br><br>
-初めて戦いに参加すること。
-</div>
-</details>
-</div>
-
-<div class="card">
-<div class="question">③ 縁側</div>
-<details>
-<summary>解答・解説を見る</summary>
-<div class="answer">
-<b>えんがわ</b><br><br>
-日本家屋で座敷と庭をつなぐ板張りの通路。
-</div>
-</details>
-</div>
-
-<div class="card">
-<div class="question">④ 座敷</div>
-<details>
-<summary>解答・解説を見る</summary>
-<div class="answer">
-<b>ざしき</b><br><br>
-畳が敷かれた和室。
-</div>
-</details>
-</div>
-
-<div class="card">
-<div class="question">⑤ 行灯</div>
-<details>
-<summary>解答・解説を見る</summary>
-<div class="answer">
-<b>あんどん</b><br><br>
-和紙越しに灯りをともす昔の照明器具。
-</div>
-</details>
-</div>
-
-<div class="card">
-<div class="question">⑥ 雪洞</div>
-<details>
-<summary>解答・解説を見る</summary>
-<div class="answer">
-<b>ぼんぼり</b><br><br>
-ひな祭りで飾られる灯火具。
-</div>
-</details>
-</div>
-
-<div class="card">
-<div class="question">⑦ 老舗</div>
-<details>
-<summary>解答・解説を見る</summary>
-<div class="answer">
-<b>しにせ</b><br><br>
-長年続いている店や企業。
-</div>
-</details>
-</div>
-
-<div class="card">
-<div class="question">⑧ 旅籠</div>
-<details>
-<summary>解答・解説を見る</summary>
-<div class="answer">
-<b>はたご</b><br><br>
-江戸時代の宿屋。
-</div>
-</details>
-</div>
-
-<div class="card">
-<div class="question">⑨ 神楽</div>
-<details>
-<summary>解答・解説を見る</summary>
-<div class="answer">
-<b>かぐら</b><br><br>
-神社で奉納される伝統芸能。
-</div>
-</details>
-</div>
-
-<div class="card">
-<div class="question">⑩ 囲炉裏</div>
-<details>
-<summary>解答・解説を見る</summary>
-<div class="answer">
-<b>いろり</b><br><br>
-家の床を四角く切り火を焚く設備。
-</div>
-</details>
-</div>
-
+<div class="container" id="quizArea">
+読込中...
 </div>
 
 <footer>
-毎日少しずつ日本語の知識を深めましょう
+毎日自動で出題内容が変わります
 </footer>
+
+<script>
+
+document.getElementById("today").textContent =
+new Date().toLocaleDateString("ja-JP");
+
+fetch("questions.json")
+.then(res => res.json())
+.then(data => {
+
+    const today = new Date();
+
+    const seed =
+        today.getFullYear() * 10000 +
+        (today.getMonth()+1) * 100 +
+        today.getDate();
+
+    function seededRandom(seed){
+        return function(){
+            seed = (seed * 9301 + 49297) % 233280;
+            return seed / 233280;
+        }
+    }
+
+    const rnd = seededRandom(seed);
+
+    const questions = [...data]
+        .sort(()=>rnd()-0.5)
+        .slice(0,10);
+
+    const area = document.getElementById("quizArea");
+    area.innerHTML = "";
+
+    questions.forEach((q,index)=>{
+
+        area.innerHTML += `
+        <div class="card">
+
+            <div class="question">
+            ${index+1}. ${q.word}
+            </div>
+
+            <details>
+                <summary>解答・解説を見る</summary>
+
+                <div class="answer">
+                    <b>${q.reading}</b>
+                    <br><br>
+                    ${q.description}
+                </div>
+            </details>
+
+        </div>
+        `;
+
+    });
+
+});
+
+</script>
 
 </body>
 </html>

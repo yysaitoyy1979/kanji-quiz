@@ -4,23 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>本日の漢字クイズ</title>
+<title>中学受験 漢字トレーニング</title>
 
 <meta name="robots" content="noindex,nofollow">
 
 <style>
+
 body{
     margin:0;
-    background:#f4f1ea;
+    background:#f5f3ee;
     font-family:"Yu Gothic","Meiryo",sans-serif;
-    color:#333;
 }
 
 header{
-    background:#6d4c41;
+    background:#6b4b32;
     color:white;
     text-align:center;
-    padding:40px 20px;
+    padding:35px;
 }
 
 .container{
@@ -29,37 +29,53 @@ header{
     padding:20px;
 }
 
+.button-area{
+    text-align:center;
+    margin:20px;
+}
+
+button{
+    padding:10px 16px;
+    border:none;
+    border-radius:8px;
+    background:#0066cc;
+    color:white;
+    cursor:pointer;
+}
+
 .card{
     background:white;
-    margin:20px 0;
+    margin-bottom:20px;
     padding:20px;
     border-radius:12px;
-    box-shadow:0 2px 6px rgba(0,0,0,.1);
+    box-shadow:0 2px 5px rgba(0,0,0,.12);
+}
+
+.category{
+    color:#666;
+    font-size:0.9rem;
 }
 
 .question{
     font-size:1.8rem;
+    margin-top:8px;
     font-weight:bold;
 }
 
 .answer{
-    background:#eef4ff;
     margin-top:15px;
     padding:15px;
-    border-left:5px solid #2469d9;
+    background:#eef5ff;
+    border-left:5px solid #2367d1;
 }
 
-details summary{
-    cursor:pointer;
-    color:#2469d9;
-    font-weight:bold;
+.links{
     margin-top:15px;
 }
 
-.date{
-    text-align:center;
-    margin-top:10px;
-    color:#ddd;
+.links a{
+    display:inline-block;
+    margin-right:15px;
 }
 
 footer{
@@ -67,28 +83,46 @@ footer{
     padding:30px;
     color:#666;
 }
+
 </style>
 </head>
-
 <body>
 
 <header>
-    <h1>本日の漢字クイズ</h1>
-    <div class="date" id="today"></div>
+<h1>中学受験 漢字トレーニング</h1>
+<p>毎日10問の漢字・語彙問題</p>
+<div id="today"></div>
 </header>
+
+<div class="button-area">
+<button onclick="changeSet()">
+別の問題セットを表示
+</button>
+</div>
 
 <div class="container" id="quizArea">
 読込中...
 </div>
 
 <footer>
-毎日自動で出題内容が変わります
+Wikipediaと画像検索で理解を深めましょう
 </footer>
 
 <script>
 
+let extraSeed = 0;
+
 document.getElementById("today").textContent =
 new Date().toLocaleDateString("ja-JP");
+
+function seededRandom(seed){
+    return function(){
+        seed = (seed * 9301 + 49297) % 233280;
+        return seed / 233280;
+    }
+}
+
+function loadQuiz(){
 
 fetch("questions.json")
 .then(res => res.json())
@@ -97,51 +131,101 @@ fetch("questions.json")
     const today = new Date();
 
     const seed =
-        today.getFullYear() * 10000 +
-        (today.getMonth()+1) * 100 +
-        today.getDate();
-
-    function seededRandom(seed){
-        return function(){
-            seed = (seed * 9301 + 49297) % 233280;
-            return seed / 233280;
-        }
-    }
+        today.getFullYear()*10000 +
+        (today.getMonth()+1)*100 +
+        today.getDate() +
+        extraSeed;
 
     const rnd = seededRandom(seed);
 
-    const questions = [...data]
+    const selected =
+        [...data]
         .sort(()=>rnd()-0.5)
         .slice(0,10);
 
-    const area = document.getElementById("quizArea");
-    area.innerHTML = "";
+    const area =
+        document.getElementById("quizArea");
 
-    questions.forEach((q,index)=>{
+    area.innerHTML="";
+
+    selected.forEach((q,i)=>{
+
+        const googleImage =
+        "https://www.google.com/search?tbm=isch&q=" +
+        encodeURIComponent(q.word);
 
         area.innerHTML += `
+
         <div class="card">
 
+            <div class="category">
+            ${q.category}
+            </div>
+
             <div class="question">
-            ${index+1}. ${q.word}
+
+            ${i+1}.
+
+            ${q.type === "read"
+                ? "【読み】 " + q.word
+                : "【書き】 " + q.word
+            }
+
             </div>
 
             <details>
-                <summary>解答・解説を見る</summary>
 
-                <div class="answer">
-                    <b>${q.reading}</b>
-                    <br><br>
-                    ${q.description}
-                </div>
+            <summary>
+            解答・解説を見る
+            </summary>
+
+            <div class="answer">
+
+            <strong>答え：</strong>
+            ${q.answer}
+
+            <br><br>
+
+            ${q.description}
+
+            <div class="links">
+
+            <a href="${q.wiki}"
+               target="_blank">
+
+            📖 Wikipedia
+
+            </a>
+
+            <a href="${googleImage}"
+               target="_blank">
+
+            🔍 画像検索
+
+            </a>
+
+            </div>
+
+            </div>
+
             </details>
 
         </div>
         `;
-
     });
 
 });
+}
+
+function changeSet(){
+
+    extraSeed =
+    Math.floor(Math.random()*100000);
+
+    loadQuiz();
+}
+
+loadQuiz();
 
 </script>
 

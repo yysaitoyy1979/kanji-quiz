@@ -1,7 +1,7 @@
 [
 {"id":"uisin","category":"難読漢字","kanji":"初陣","reading":"ういじん","description":"初めて戦いに参加すること。"},
 {"id":"sinise","category":"難読漢字","kanji":"老舗","reading":"しにせ","description":"代々続く店。"},
-{"id":"mebuka","category":"難読漢字","kanji":"目深","reading":"めぶか","description":"帽子などを深くかぶること。"},
+{"id":"mebuka","category":"難読漢字","kanji":"目深","reading":"まぶか","description":"帽子などを深くかぶること。"},
 {"id":"saezuri","category":"難読漢字","kanji":"囀り","reading":"さえずり","description":"鳥の鳴き声。"},
 {"id":"komorebi","category":"難読漢字","kanji":"木漏れ日","reading":"こもれび","description":"木々の間から差し込む光。"},
 {"id":"kisetsu","category":"難読漢字","kanji":"時雨","reading":"しぐれ","description":"晩秋から初冬に降る雨。"},
@@ -15,7 +15,7 @@
 {"id":"yukari","category":"難読漢字","kanji":"所縁","reading":"ゆかり","description":"関係やつながり。"},
 {"id":"izumi","category":"難読漢字","kanji":"泉水","reading":"せんすい","description":"庭園の池や泉。"},
 {"id":"mukuge","category":"難読漢字","kanji":"木槿","reading":"むくげ","description":"夏に花を咲かせる樹木。"},
-{"id":"hamanasu","category":"難読漢字","kanji":"玫瑰","reading":"はまなす","description":"海辺に咲く花。"},
+{"id":"hamanasu","category":"難読漢字","kanji":"浜茄子","reading":"はまなす","description":"海辺に咲くバラ科の野生植物。"},
 {"id":"tokage","category":"難読漢字","kanji":"蜥蜴","reading":"とかげ","description":"は虫類の一種。"},
 {"id":"yamame","category":"難読漢字","kanji":"山女魚","reading":"やまめ","description":"川にすむ魚。"},
 {"id":"ayu","category":"難読漢字","kanji":"鮎","reading":"あゆ","description":"夏を代表する川魚。"},

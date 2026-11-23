@@ -16,7 +16,7 @@
 {"id":"oni","category":"ことわざ","kanji":"鬼に金棒","reading":"おににかなぼう","description":"強いものがさらに強くなること。"},
 {"id":"sakini","category":"ことわざ","kanji":"先んずれば人を制す","reading":"さきんずればひとをせいす","description":"先に行動すると有利になること。"},
 {"id":"hayaoki","category":"ことわざ","kanji":"早起きは三文の徳","reading":"はやおきはさんもんのとく","description":"早起きには良いことがある。"},
-{"id":"akita","category":"ことわざ","kanji":"秋茄子は嫁に食わすな","reading":"あきなすはよめにくわすな","description":"解釈が分かれる昔のことわざ。"},
+{"id":"chiri","category":"ことわざ","kanji":"塵も積もれば山となる","reading":"ちりもつもればやまとなる","description":"小さなものでも積み重なると大きくなること。"},
 {"id":"mimizu","category":"ことわざ","kanji":"蓼食う虫も好き好き","reading":"たでくうむしもすきずき","description":"人の好みは様々であること。"},
 {"id":"uo","category":"ことわざ","kanji":"魚心あれば水心","reading":"うおごころあればみずごころ","description":"相手次第でこちらの態度も変わること。"},
 {"id":"hana2","category":"ことわざ","kanji":"立つ鳥跡を濁さず","reading":"たつとりあとをにごさず","description":"去る時はきれいに後始末をする。"},

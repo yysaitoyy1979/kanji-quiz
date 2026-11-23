@@ -11,7 +11,7 @@
 {"id":"bajitofu","category":"故事成語","kanji":"馬耳東風","reading":"ばじとうふう","description":"人の意見を聞き流すこと。"},
 {"id":"gasin","category":"故事成語","kanji":"臥薪嘗胆","reading":"がしんしょうたん","description":"苦労に耐えて目的を達成しようとすること。"},
 {"id":"onko","category":"故事成語","kanji":"温故知新","reading":"おんこちしん","description":"昔のことを学んで新しい知識を得ること。"},
-{"id":"kani","category":"故事成語","kanji":"完璧","reading":"かんぺき","description":"欠点がなく完全なこと。"},
+{"id":"soushin","category":"故事成語","kanji":"唾面自乾","reading":"だめんじかん","description":"怒りを買って唾をかけられても、つばを乾くままにして相手と争わないこと。"},
 {"id":"sikika","category":"故事成語","kanji":"四面楚歌","reading":"しめんそか","description":"周りが敵ばかりで孤立した状態。"},
 {"id":"kokusi","category":"故事成語","kanji":"刻舟求剣","reading":"こくしゅうきゅうけん","description":"古い考えにとらわれること。"},
 {"id":"kanin","category":"故事成語","kanji":"管鮑之交","reading":"かんぽうのまじわり","description":"深い友情のこと。"},
